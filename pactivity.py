@@ -210,7 +210,6 @@ df = pd.concat([df,add_pluto],ignore_index=True)
 
 #print(df)
 
-
 with pd.ExcelWriter("planet.xlsx") as writer:
     df.to_excel(writer)
 
@@ -225,4 +224,19 @@ with pd.ExcelWriter("planet.xlsx") as writer:
 # Create a program which allows a user to type in the name of the planet they want to view information about.
 # Ask the user to specify the column name they wish to see, or type “all” for everything.
 
-user_input = input("Enter Planet Name or All : ")
+# Get user input for planet name and column name
+planet_name = input("Enter the name of the planet: ")
+column_name = input("Enter the column name you wish to see (or type 'all' for everything): ").lower()
+
+# Print the information based on user input
+if planet_name in df:
+    if column_name == 'all':
+        for key, value in df[planet_name].items():
+            print(f"{key.capitalize()}: {value}")
+    else:
+        if column_name in df[planet_name]:
+            print(f"{column_name.capitalize()}: {df[planet_name][column_name]}")
+        else:
+            print("Invalid column name.")
+else:
+    print("Invalid planet name.")
